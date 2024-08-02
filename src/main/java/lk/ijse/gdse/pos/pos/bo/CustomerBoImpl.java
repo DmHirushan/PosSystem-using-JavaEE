@@ -17,4 +17,14 @@ public class CustomerBoImpl implements CustomerBo{
     public CustomerDto getCustomer(String customerId, Connection connection) {
         return customerDao.getCustomer(customerId, connection);
     }
+
+    @Override
+    public boolean updateCustomer(String customerId, CustomerDto customerDto, Connection connection) {
+        return customerDao.updateCustomer(customerId, customerDto, connection);
+    }
+
+    @Override
+    public boolean deleteCustomer(String customerId, Connection connection) {
+        return customerDao.deleteCustomer(customerId, connection);
+    }
 }

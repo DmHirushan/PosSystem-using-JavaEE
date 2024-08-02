@@ -9,6 +9,9 @@ import java.sql.SQLException;
 public class CustomerDaoImpl implements CustomerDao{
     public static String SAVE_CUSTOMER = "Insert into customer values (?,?,?,?)";
     public static String GET_CUSTOMER = "Select * from customer where id = ?";
+    public static String UPDATE_CUSTOMER = "UPDATE customer SET name=?, address=?, salary=? WHERE id=?";
+    public static String DELETE_CUSTOMER = "DELETE FROM customer WHERE id = ?";
+
     @Override
     public String saveCustomer(CustomerDto customerDto, Connection connection) {
         PreparedStatement preparedStatement = null;
@@ -47,5 +50,31 @@ public class CustomerDaoImpl implements CustomerDao{
             throw new RuntimeException(e);
         }
         return customerDto;
+    }
+
+    @Override
+    public boolean updateCustomer(String customerId, CustomerDto customerDto, Connection connection) {
+        try{
+            var ps = connection.prepareStatement(UPDATE_CUSTOMER);
+            ps.setString(1, customerDto.getName());
+            ps.setString(2, customerDto.getAddress());
+            ps.setString(3, customerDto.getSalary());
+            ps.setString(4, customerId);
+            return ps.executeUpdate() != 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean deleteCustomer(String customerId, Connection connection){
+        try{
+            var ps = connection.prepareStatement(DELETE_CUSTOMER);
+            ps.setString(1, customerId);
+            return  ps.executeUpdate() != 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

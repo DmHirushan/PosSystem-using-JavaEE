@@ -69,4 +69,34 @@ public class Customer extends HttpServlet {
             
         }
     }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try(var writer = resp.getWriter()){
+            var customerId = req.getParameter("id");
+            Jsonb jsonb = JsonbBuilder.create();
+            CustomerDto customerDto = jsonb.fromJson(req.getReader(), CustomerDto.class);
+            if (customerBo.updateCustomer(customerId, customerDto, connection)){
+                writer.write("Customer Update Successfully!");
+            }else {
+                writer.write("Something went wrong!");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try(var writer = resp.getWriter()){
+            var customerId = req.getParameter("id");
+            if (customerBo.deleteCustomer(customerId, connection)){
+                writer.write("Customer Deleted Successfully!");
+            }else {
+                writer.write("Something went wrong!");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
