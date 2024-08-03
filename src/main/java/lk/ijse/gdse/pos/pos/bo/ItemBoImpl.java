@@ -17,4 +17,14 @@ public class ItemBoImpl implements ItemBo{
     public ItemDto getItem(String itemCode, Connection connection) {
         return itemDao.getItem(itemCode, connection);
     }
+
+    @Override
+    public boolean updateItem(String itemCode, ItemDto itemDto, Connection connection) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteItem(String itemCode, Connection connection) {
+        return false;
+    }
 }
