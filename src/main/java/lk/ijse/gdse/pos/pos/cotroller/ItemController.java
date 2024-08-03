@@ -60,4 +60,16 @@ public class ItemController extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try(var writer = resp.getWriter()){
+            var itemCode = req.getParameter("itemCode");
+            Jsonb jsonb = JsonbBuilder.create();
+            resp.setContentType("application/json");
+            jsonb.toJson(itemBo.getItem(itemCode, connection), writer);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

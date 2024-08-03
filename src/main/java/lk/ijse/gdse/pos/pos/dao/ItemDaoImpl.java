@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 public class ItemDaoImpl implements ItemDao{
     public static String SAVE_ITEM = "insert into item values (?,?,?,?)";
+    public static String GET_ITEM = "select * from item where item_code = ?";
 
     @Override
     public String saveItem(ItemDto itemDto, Connection connection) {
@@ -28,6 +29,20 @@ public class ItemDaoImpl implements ItemDao{
 
     @Override
     public ItemDto getItem(String itemCode, Connection connection) {
-        return null;
+        ItemDto itemDto = new ItemDto();
+        try{
+            var ps = connection.prepareStatement(GET_ITEM);
+            ps.setString(1, itemCode);
+            var rst = ps.executeQuery();
+            while (rst.next()){
+                itemDto.setItemCode(rst.getString("item_code"));
+                itemDto.setItemName(rst.getString("item_name"));
+                itemDto.setItemQty(String.valueOf(rst.getInt("item_qty")));
+                itemDto.setUnitPrice(String.valueOf(rst.getDouble("unit_price")));
+            }
+            return itemDto;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

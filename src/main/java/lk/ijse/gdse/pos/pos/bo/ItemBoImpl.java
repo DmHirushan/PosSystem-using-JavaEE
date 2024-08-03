@@ -12,4 +12,9 @@ public class ItemBoImpl implements ItemBo{
     public String saveItem(ItemDto itemDto, Connection connection) {
         return itemDao.saveItem(itemDto, connection);
     }
+
+    @Override
+    public ItemDto getItem(String itemCode, Connection connection) {
+        return itemDao.getItem(itemCode, connection);
+    }
 }

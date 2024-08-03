@@ -90,8 +90,10 @@ public class CustomerController extends HttpServlet {
         try(var writer = resp.getWriter()){
             var customerId = req.getParameter("id");
             if (customerBo.deleteCustomer(customerId, connection)){
+                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
                 writer.write("Customer Deleted Successfully!");
             }else {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 writer.write("Something went wrong!");
             }
         } catch (Exception e) {
