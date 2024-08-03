@@ -1,6 +1,9 @@
 // Select the button using its ID
 const button = document.getElementById('btn-save-customer');
 
+// Add the event listener to the button
+button.addEventListener('click', handleClick);
+
 // Define the function that will be executed when the button is clicked
 function handleClick() {
     // alert('Button was clicked!');
@@ -40,5 +43,4 @@ function handleClick() {
 
 }
 
-// Add the event listener to the button
-button.addEventListener('click', handleClick);
+

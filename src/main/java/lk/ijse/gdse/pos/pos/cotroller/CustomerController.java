@@ -1,4 +1,4 @@
-package lk.ijse.gdse.pos.pos;
+package lk.ijse.gdse.pos.pos.cotroller;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -17,11 +17,10 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/customer", loadOnStartup = 2)
-public class Customer extends HttpServlet {
+public class CustomerController extends HttpServlet {
 
     Connection connection;
     CustomerBo customerBo = new CustomerBoImpl();
