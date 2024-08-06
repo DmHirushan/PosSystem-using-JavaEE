@@ -20,11 +20,11 @@ public class ItemBoImpl implements ItemBo{
 
     @Override
     public boolean updateItem(String itemCode, ItemDto itemDto, Connection connection) {
-        return false;
+        return itemDao.updateItem(itemCode, itemDto, connection);
     }
 
     @Override
     public boolean deleteItem(String itemCode, Connection connection) {
-        return false;
+        return itemDao.deleteItem(itemCode, connection);
     }
 }

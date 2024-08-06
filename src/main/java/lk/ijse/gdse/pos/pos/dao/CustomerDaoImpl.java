@@ -4,16 +4,20 @@ import lk.ijse.gdse.pos.pos.dto.CustomerDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerDaoImpl implements CustomerDao{
     public static String SAVE_CUSTOMER = "Insert into customer values (?,?,?,?)";
     public static String GET_CUSTOMER = "Select * from customer where id = ?";
-    public static String UPDATE_CUSTOMER = "UPDATE customer SET name=?, address=?, salary=? WHERE id=?";
-    public static String DELETE_CUSTOMER = "DELETE FROM customer WHERE id = ?";
+    public static String UPDATE_CUSTOMER = "Update customer SET name=?, address=?, salary=? WHERE id=?";
+    public static String DELETE_CUSTOMER = "Delete from customer where id = ?";
+    public static String GET_ALL = "Select * from customer";
 
     @Override
-    public String saveCustomer(CustomerDto customerDto, Connection connection) {
+    public boolean saveCustomer(CustomerDto customerDto, Connection connection) {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(SAVE_CUSTOMER);
@@ -23,9 +27,9 @@ public class CustomerDaoImpl implements CustomerDao{
             preparedStatement.setString(4, customerDto.getSalary());
 
             if (preparedStatement.executeUpdate() != 0){
-                return "Customer Saved Successfully!";
+                return true;
             }else {
-                return "Something went wrong!";
+                return false;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -76,5 +80,25 @@ public class CustomerDaoImpl implements CustomerDao{
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public List<CustomerDto> getAllCustomers(Connection connection) {
+        List <CustomerDto> customerDtos = new ArrayList<>();
+        try{
+            CustomerDto customerDto = new CustomerDto();
+            var ps = connection.prepareStatement(GET_ALL);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()){
+                customerDto.setId(resultSet.getString("id"));
+                customerDto.setName(resultSet.getString("name"));
+                customerDto.setAddress(resultSet.getString("address"));
+                customerDto.setSalary(resultSet.getString("salary"));
+                customerDtos.add(customerDto);
+            }
+            return customerDtos;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -5,11 +5,12 @@ import lk.ijse.gdse.pos.pos.dao.CustomerDaoImpl;
 import lk.ijse.gdse.pos.pos.dto.CustomerDto;
 
 import java.sql.Connection;
+import java.util.List;
 
 public class CustomerBoImpl implements CustomerBo{
     CustomerDao customerDao = new CustomerDaoImpl();
     @Override
-    public String saveCustomer(CustomerDto customerDto, Connection connection) {
+    public boolean saveCustomer(CustomerDto customerDto, Connection connection) {
         return customerDao.saveCustomer(customerDto, connection);
     }
 
@@ -26,5 +27,10 @@ public class CustomerBoImpl implements CustomerBo{
     @Override
     public boolean deleteCustomer(String customerId, Connection connection) {
         return customerDao.deleteCustomer(customerId, connection);
+    }
+
+    @Override
+    public List<CustomerDto> getAllCustomers(Connection connection) {
+        return customerDao.getAllCustomers(connection);
     }
 }

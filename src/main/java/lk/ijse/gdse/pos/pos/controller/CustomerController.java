@@ -1,5 +1,6 @@
-package lk.ijse.gdse.pos.pos.cotroller;
+package lk.ijse.gdse.pos.pos.controller;
 
+import jakarta.json.JsonArrayBuilder;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.servlet.ServletConfig;
@@ -18,6 +19,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(urlPatterns = "/customer", loadOnStartup = 2)
 public class CustomerController extends HttpServlet {
@@ -50,7 +52,11 @@ public class CustomerController extends HttpServlet {
             try(var writer = resp.getWriter()){
                 Jsonb jsonb = JsonbBuilder.create();
                 CustomerDto customerDto = jsonb.fromJson(req.getReader(), CustomerDto.class);
-                writer.write(customerBo.saveCustomer(customerDto, connection));
+               if (customerBo.saveCustomer(customerDto, connection)){
+                    resp.setStatus(HttpServletResponse.SC_CREATED);
+                }else{
+                   resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+               }
             }catch (Exception e){
 
             }
@@ -58,15 +64,39 @@ public class CustomerController extends HttpServlet {
     }
 
     @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        try(var writer = resp.getWriter()){
+//            Jsonb jsonb = JsonbBuilder.create();
+//            var customerId = req.getParameter("id");
+//            resp.setContentType("application/json");
+//            jsonb.toJson(customerBo.getCustomer(customerId, connection), writer);
+//        }catch (Exception e){
+//
+//        }
+//    }
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try(var writer = resp.getWriter()){
-            Jsonb jsonb = JsonbBuilder.create();
-            var customerId = req.getParameter("id");
-            resp.setContentType("application/json");
-            jsonb.toJson(customerBo.getCustomer(customerId, connection), writer);
-        }catch (Exception e){
-            
+        var type = req.getParameter("type");
+        if (type.equals("one")){
+            try(var writer = resp.getWriter()){
+                Jsonb jsonb = JsonbBuilder.create();
+                var customerId = req.getParameter("id");
+                resp.setContentType("application/json");
+                jsonb.toJson(customerBo.getCustomer(customerId, connection), writer);
+            }catch (Exception e){
+
+            }
+        }else {
+            try(var writer = resp.getWriter()){
+                List<CustomerDto> allCustomers = customerBo.getAllCustomers(connection);
+                var jsonb = JsonbBuilder.create();
+                resp.setContentType("application/json");
+                jsonb.toJson(allCustomers);
+            }catch (Exception e){
+
+            }
         }
+
     }
 
     @Override
@@ -76,8 +106,10 @@ public class CustomerController extends HttpServlet {
             Jsonb jsonb = JsonbBuilder.create();
             CustomerDto customerDto = jsonb.fromJson(req.getReader(), CustomerDto.class);
             if (customerBo.updateCustomer(customerId, customerDto, connection)){
-                writer.write("Customer Update Successfully!");
+                resp.setStatus(HttpServletResponse.SC_CREATED);
+//                writer.write("Customer Update Successfully!");
             }else {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 writer.write("Something went wrong!");
             }
         } catch (Exception e) {
