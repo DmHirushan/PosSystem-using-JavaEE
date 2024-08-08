@@ -5,6 +5,7 @@ import lk.ijse.gdse.pos.pos.dao.ItemDaoImpl;
 import lk.ijse.gdse.pos.pos.dto.ItemDto;
 
 import java.sql.Connection;
+import java.util.List;
 
 public class ItemBoImpl implements ItemBo{
     ItemDao itemDao = new ItemDaoImpl();
@@ -26,5 +27,10 @@ public class ItemBoImpl implements ItemBo{
     @Override
     public boolean deleteItem(String itemCode, Connection connection) {
         return itemDao.deleteItem(itemCode, connection);
+    }
+
+    @Override
+    public List<ItemDto> getAllItems(Connection connection) {
+        return itemDao.getAllItems(connection);
     }
 }

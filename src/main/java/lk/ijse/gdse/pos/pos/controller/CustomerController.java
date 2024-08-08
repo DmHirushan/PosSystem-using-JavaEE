@@ -91,7 +91,7 @@ public class CustomerController extends HttpServlet {
                 List<CustomerDto> allCustomers = customerBo.getAllCustomers(connection);
                 var jsonb = JsonbBuilder.create();
                 resp.setContentType("application/json");
-                jsonb.toJson(allCustomers);
+                jsonb.toJson(allCustomers, writer);
             }catch (Exception e){
 
             }

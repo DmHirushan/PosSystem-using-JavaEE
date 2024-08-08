@@ -86,19 +86,20 @@ public class CustomerDaoImpl implements CustomerDao{
     public List<CustomerDto> getAllCustomers(Connection connection) {
         List <CustomerDto> customerDtos = new ArrayList<>();
         try{
-            CustomerDto customerDto = new CustomerDto();
             var ps = connection.prepareStatement(GET_ALL);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()){
+                CustomerDto customerDto = new CustomerDto();
                 customerDto.setId(resultSet.getString("id"));
                 customerDto.setName(resultSet.getString("name"));
                 customerDto.setAddress(resultSet.getString("address"));
                 customerDto.setSalary(resultSet.getString("salary"));
                 customerDtos.add(customerDto);
             }
-            return customerDtos;
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return customerDtos;
     }
 }

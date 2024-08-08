@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(urlPatterns = "/item")
 public class ItemController extends HttpServlet {
@@ -29,6 +30,7 @@ public class ItemController extends HttpServlet {
     @Override
     public void init() throws ServletException {
         try {
+            System.out.println("item init ekt enwa!");
             InitialContext ctx = new InitialContext();
             DataSource pool = (DataSource) ctx.lookup("java:comp/env/jdbc/pos");
             this.connection = pool.getConnection();
@@ -61,18 +63,31 @@ public class ItemController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try(var writer = resp.getWriter()){
-            var itemCode = req.getParameter("itemCode");
-            Jsonb jsonb = JsonbBuilder.create();
-            resp.setContentType("application/json");
-            jsonb.toJson(itemBo.getItem(itemCode, connection), writer);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (req.getParameter("type").equals("all")){
+            try(var writer = resp.getWriter()){
+                List<ItemDto> allItems = itemBo.getAllItems(connection);
+                var jsonb = JsonbBuilder.create();
+                resp.setContentType("application/json");
+                jsonb.toJson(allItems, writer);
+            }catch (Exception e){
+
+            }
+        }else {
+            try(var writer = resp.getWriter()){
+                var itemCode = req.getParameter("itemCode");
+                Jsonb jsonb = JsonbBuilder.create();
+                resp.setContentType("application/json");
+                jsonb.toJson(itemBo.getItem(itemCode, connection), writer);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
+
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("Backend eke update eka..");
         try(var writer = resp.getWriter()){
             var itemCode = req.getParameter("itemCode");
             Jsonb jsonb = JsonbBuilder.create();
