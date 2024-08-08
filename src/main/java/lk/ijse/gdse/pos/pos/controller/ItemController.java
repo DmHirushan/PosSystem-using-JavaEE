@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lk.ijse.gdse.pos.pos.bo.BoFactory;
 import lk.ijse.gdse.pos.pos.bo.ItemBo;
 import lk.ijse.gdse.pos.pos.bo.ItemBoImpl;
 import lk.ijse.gdse.pos.pos.dto.CustomerDto;
@@ -25,7 +26,7 @@ public class ItemController extends HttpServlet {
 
     Connection connection;
 
-    ItemBo itemBo = new ItemBoImpl();
+    ItemBo itemBo = (ItemBo) BoFactory.getBoFactory().getBo(BoFactory.BoTypes.ITEM);
 
     @Override
     public void init() throws ServletException {

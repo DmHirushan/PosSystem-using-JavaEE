@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lk.ijse.gdse.pos.pos.bo.BoFactory;
 import lk.ijse.gdse.pos.pos.bo.CustomerBo;
 import lk.ijse.gdse.pos.pos.bo.CustomerBoImpl;
 import lk.ijse.gdse.pos.pos.dto.CustomerDto;
@@ -25,7 +26,7 @@ import java.util.List;
 public class CustomerController extends HttpServlet {
 
     Connection connection;
-    CustomerBo customerBo = new CustomerBoImpl();
+    CustomerBo customerBo = (CustomerBo) BoFactory.getBoFactory().getBo(BoFactory.BoTypes.CUSTOMER);
 
     @Override
     public void init(ServletConfig config) throws ServletException {

@@ -6,6 +6,6 @@ import lk.ijse.gdse.pos.pos.dto.OrderDetailDto;
 
 import java.sql.Connection;
 
-public interface OrderDetailBo {
+public interface OrderDetailBo extends SuperBo{
     String saveOrderDetail(OrderDetailDto orderDetailDto, Connection connection);
 }

@@ -7,10 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lk.ijse.gdse.pos.pos.bo.OrderBo;
-import lk.ijse.gdse.pos.pos.bo.OrderBoImpl;
-import lk.ijse.gdse.pos.pos.bo.OrderDetailBo;
-import lk.ijse.gdse.pos.pos.bo.OrderDetailBoImpl;
+import lk.ijse.gdse.pos.pos.bo.*;
 import lk.ijse.gdse.pos.pos.dto.OrderDetailDto;
 import lk.ijse.gdse.pos.pos.dto.OrderDto;
 
@@ -24,8 +21,8 @@ import java.sql.SQLException;
 @WebServlet(urlPatterns = "/placeorder")
 public class PlaceOrderFormController extends HttpServlet {
     Connection connection;
-    OrderBo orderBo = new OrderBoImpl();
-    OrderDetailBo orderDetailBo = new OrderDetailBoImpl();
+    OrderBo orderBo = (OrderBo) BoFactory.getBoFactory().getBo(BoFactory.BoTypes.ORDER);
+    OrderDetailBo orderDetailBo = (OrderDetailBo) BoFactory.getBoFactory().getBo(BoFactory.BoTypes.ORDER_DETAIL);
 
     public void init() throws ServletException {
         System.out.println("Place Order Init method Invoked");
