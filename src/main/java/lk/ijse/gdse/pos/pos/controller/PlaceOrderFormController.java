@@ -3,6 +3,7 @@ package lk.ijse.gdse.pos.pos.controller;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,13 +21,14 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@WebServlet(urlPatterns = "/placeorder")
 public class PlaceOrderFormController extends HttpServlet {
     Connection connection;
     OrderBo orderBo = new OrderBoImpl();
     OrderDetailBo orderDetailBo = new OrderDetailBoImpl();
 
     public void init() throws ServletException {
-        System.out.println("Init method Invoked");
+        System.out.println("Place Order Init method Invoked");
         try {
             InitialContext ctx = new InitialContext();
             DataSource pool = (DataSource) ctx.lookup("java:comp/env/jdbc/pos");
@@ -42,6 +44,7 @@ public class PlaceOrderFormController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("type").equals("order")){
+
             try{
                 if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")){
                     resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -49,6 +52,7 @@ public class PlaceOrderFormController extends HttpServlet {
                     try(var writer = resp.getWriter()){
                         Jsonb jsonb = JsonbBuilder.create();
                         OrderDto orderDto = jsonb.fromJson(req.getReader(), OrderDto.class);
+                        System.out.println("order ek");
                         writer.write(orderBo.saveOrder(orderDto, connection));
                     }catch (Exception e){
 

@@ -1,5 +1,6 @@
 package lk.ijse.gdse.pos.pos.dto;
 
+import lk.ijse.gdse.pos.pos.entity.OrderDetail;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,4 +12,12 @@ public class OrderDetailDto {
     private String orderId;
     private String itemCode;
     private  double unitPrice;
+
+    public static OrderDetailDto toDto(OrderDetail orderDetail){
+        OrderDetailDto orderDetailDto = new OrderDetailDto();
+        orderDetailDto.setOrderId(orderDetail.getOrderId());
+        orderDetailDto.setItemCode(orderDetail.getItemCode());
+        orderDetailDto.setUnitPrice(orderDetail.getUnitPrice());
+        return orderDetailDto;
+    }
 }
