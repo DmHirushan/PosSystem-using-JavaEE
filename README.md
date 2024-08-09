@@ -36,7 +36,7 @@ This project is a simple POS (Point of Sale) system that allows managing custome
 
 ## API Documentation https://documenter.getpostman.com/view/34773679/2sA3s3GW2q
 
-## Contrllers and Endpoints
+## Controllers and Endpoints
 
 Customer Controller
 Add Customer: POST /customer - Adds a new customer.
