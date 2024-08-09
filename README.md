@@ -56,5 +56,4 @@ Order Controller
 Add Order: POST /order - Creates a new order.
 Get Orders: GET /order - Retrieves a list of all orders.
 
-License
-This project is licensed under the MIT License.
+
