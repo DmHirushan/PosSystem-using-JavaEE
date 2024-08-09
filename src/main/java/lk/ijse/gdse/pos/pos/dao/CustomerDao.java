@@ -6,7 +6,7 @@ import lk.ijse.gdse.pos.pos.entity.Customer;
 import java.sql.Connection;
 import java.util.List;
 
-public interface CustomerDao {
+public interface CustomerDao extends SuperDao{
     boolean saveCustomer(Customer customer, Connection connection);
     Customer getCustomer(String customerId, Connection connection);
     boolean updateCustomer(String customerId, Customer customer, Connection connection);

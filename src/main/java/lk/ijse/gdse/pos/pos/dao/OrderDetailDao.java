@@ -5,6 +5,6 @@ import lk.ijse.gdse.pos.pos.entity.OrderDetail;
 
 import java.sql.Connection;
 
-public interface OrderDetailDao {
+public interface OrderDetailDao extends SuperDao{
     String saveOrderDetail(OrderDetail orderDetail, Connection connection);
 }
