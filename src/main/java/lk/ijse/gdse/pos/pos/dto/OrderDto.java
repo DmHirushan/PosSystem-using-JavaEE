@@ -15,8 +15,8 @@ import java.util.Date;
 public class OrderDto {
     private String orderID;
     private String customerId;
-    private Date date;
-    private double subTotal;
+//    private Date date;
+//    private double subTotal;
     private int total;
 
     public static OrderDto toDto(Order order){
@@ -24,8 +24,8 @@ public class OrderDto {
         orderDto.setOrderID(order.getOrderID());
         orderDto.setCustomerId(order.getCustomerId());
         orderDto.setTotal(order.getTotal());
-        orderDto.setDate(order.getDate());
-        orderDto.setSubTotal(order.getSubTotal());
+//        orderDto.setDate(order.getDate());
+//        orderDto.setSubTotal(order.getSubTotal());
         return orderDto;
     }
 }

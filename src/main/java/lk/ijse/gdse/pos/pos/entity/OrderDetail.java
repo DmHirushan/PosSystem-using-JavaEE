@@ -15,12 +15,14 @@ public class OrderDetail {
     private String orderId;
     private String itemCode;
     private  double unitPrice;
+    private int qty;
 
     public static OrderDetail toEntity(OrderDetailDto orderDetailDto){
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setOrderId(orderDetailDto.getOrderId());
         orderDetail.setItemCode(orderDetailDto.getItemCode());
         orderDetail.setUnitPrice(orderDetailDto.getUnitPrice());
+        orderDetail.setQty(orderDetailDto.getQty());
         return orderDetail;
     }
 }

@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 
 public class OrderDaoImpl implements OrderDao{
-    public static String SAVE_ORDER = "insert into orders values (?,?,?,?,?)";
+    public static String SAVE_ORDER = "insert into orders values (?,?,?)";
     @Override
     public String saveOrder(Order order, Connection connection) {
         try {
@@ -16,8 +16,9 @@ public class OrderDaoImpl implements OrderDao{
             ps.setString(1, order.getOrderID());
             ps.setString(2, order.getCustomerId());
             ps.setInt(3, order.getTotal());
-            ps.setDate(3, (Date) order.getDate());
-            ps.setDouble(3, order.getSubTotal());
+//            ps.setDate(3, (Date) order.getDate());
+//            ps.setDouble(3, order.getSubTotal());
+            System.out.println("dao eka");
             if (ps.executeUpdate() !=0 ){
                 return "Order Saved Successfully";
             }else {
