@@ -32,6 +32,8 @@ This project is a simple POS (Point of Sale) system that allows managing custome
 
 ## API Documentation
 
+## Customer API
+
 POST /customer
 
 Description: Creates a new customer in the system.
@@ -83,7 +85,7 @@ Responses:
 400 Bad Request - Invalid customer ID.
 
 
-Item API
+## Item API
 
 POST /item
 Description: Creates a new item in the system.
@@ -148,7 +150,7 @@ Responses:
 400 Bad Request - Invalid item code.
 
 
-Order API
+## Order API
 
 POST /placeorder
 
