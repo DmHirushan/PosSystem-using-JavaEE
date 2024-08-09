@@ -29,10 +29,10 @@ This project is a simple POS (Point of Sale) system that allows managing custome
 2. ##Setup Database##
    Configure your database settings in application.properties.
 
-    Build and Run: Deploy the WAR file to Tomcat and access the application.
-    API Documentation
-    Refer to the Postman Documentation for detailed API endpoints and usage instructions.
-   
+   Build and Run: Deploy the WAR file to Tomcat and access the application.
+   API Documentation
+   Refer to the Postman Documentation for detailed API endpoints and usage instructions.
+
 
 ## API Documentation https://documenter.getpostman.com/view/34773679/2sA3s3GW2q
 
