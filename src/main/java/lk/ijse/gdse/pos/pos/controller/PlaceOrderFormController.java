@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.gdse.pos.pos.bo.*;
 import lk.ijse.gdse.pos.pos.dto.OrderDetailDto;
 import lk.ijse.gdse.pos.pos.dto.OrderDto;
-import lk.ijse.gdse.pos.pos.util.DbConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +31,7 @@ public class PlaceOrderFormController extends HttpServlet {
 
     public void init() throws ServletException {
         logger.info("Place Order init() method invoked!");
-        this.connection = new DbConnection().getDbConnection();
+//        this.connection = new DbConnection().getDbConnection();
     }
 
     @Override
@@ -47,7 +46,7 @@ public class PlaceOrderFormController extends HttpServlet {
                         Jsonb jsonb = JsonbBuilder.create();
                         OrderDto orderDto = jsonb.fromJson(req.getReader(), OrderDto.class);
                         System.out.println("order ek");
-                        writer.write(orderBo.saveOrder(orderDto, connection));
+                        writer.write(orderBo.saveOrder(orderDto));
                     } catch (Exception e) {
 
                     }

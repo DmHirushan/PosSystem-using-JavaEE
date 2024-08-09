@@ -13,7 +13,7 @@ import lk.ijse.gdse.pos.pos.bo.BoFactory;
 import lk.ijse.gdse.pos.pos.bo.CustomerBo;
 import lk.ijse.gdse.pos.pos.bo.CustomerBoImpl;
 import lk.ijse.gdse.pos.pos.dto.CustomerDto;
-import lk.ijse.gdse.pos.pos.util.DbConnection;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,12 +28,11 @@ import java.util.List;
 @WebServlet(urlPatterns = "/customer", loadOnStartup = 2)
 public class CustomerController extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
-    Connection connection;
     CustomerBo customerBo = (CustomerBo) BoFactory.getBoFactory().getBo(BoFactory.BoTypes.CUSTOMER);
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        this.connection = new DbConnection().getDbConnection();
+//        this.connection = new DbConnection().getDbConnection();
         logger.info("Customer Servlet Init Method Invoked!");
     }
 
@@ -47,7 +46,7 @@ public class CustomerController extends HttpServlet {
             try(var writer = resp.getWriter()){
                 Jsonb jsonb = JsonbBuilder.create();
                 CustomerDto customerDto = jsonb.fromJson(req.getReader(), CustomerDto.class);
-               if (customerBo.saveCustomer(customerDto, connection)){
+               if (customerBo.saveCustomer(customerDto)){
                    writer.write("Customer Saved Successfully!");
                     resp.setStatus(HttpServletResponse.SC_CREATED);
                 }else{
@@ -78,13 +77,13 @@ public class CustomerController extends HttpServlet {
                 Jsonb jsonb = JsonbBuilder.create();
                 var customerId = req.getParameter("id");
                 resp.setContentType("application/json");
-                jsonb.toJson(customerBo.getCustomer(customerId, connection), writer);
+                jsonb.toJson(customerBo.getCustomer(customerId), writer);
             }catch (Exception e){
                 logger.error("Something went wrong in customer doGet() method : " + e.getMessage());
             }
         }else {
             try(var writer = resp.getWriter()){
-                List<CustomerDto> allCustomers = customerBo.getAllCustomers(connection);
+                List<CustomerDto> allCustomers = customerBo.getAllCustomers();
                 var jsonb = JsonbBuilder.create();
                 resp.setContentType("application/json");
                 jsonb.toJson(allCustomers, writer);
@@ -101,7 +100,7 @@ public class CustomerController extends HttpServlet {
             var customerId = req.getParameter("id");
             Jsonb jsonb = JsonbBuilder.create();
             CustomerDto customerDto = jsonb.fromJson(req.getReader(), CustomerDto.class);
-            if (customerBo.updateCustomer(customerId, customerDto, connection)){
+            if (customerBo.updateCustomer(customerId, customerDto)){
                 writer.write("Customer Update Successfully!");
                 resp.setStatus(HttpServletResponse.SC_CREATED);
             }else {
@@ -118,7 +117,7 @@ public class CustomerController extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try(var writer = resp.getWriter()){
             var customerId = req.getParameter("id");
-            if (customerBo.deleteCustomer(customerId, connection)){
+            if (customerBo.deleteCustomer(customerId)){
                 writer.write("Customer Deleted Successfully!");
             }else {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
