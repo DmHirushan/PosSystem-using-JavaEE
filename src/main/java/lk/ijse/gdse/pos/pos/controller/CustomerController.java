@@ -13,6 +13,9 @@ import lk.ijse.gdse.pos.pos.bo.BoFactory;
 import lk.ijse.gdse.pos.pos.bo.CustomerBo;
 import lk.ijse.gdse.pos.pos.bo.CustomerBoImpl;
 import lk.ijse.gdse.pos.pos.dto.CustomerDto;
+import lk.ijse.gdse.pos.pos.util.DbConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -24,23 +27,14 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/customer", loadOnStartup = 2)
 public class CustomerController extends HttpServlet {
-
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
     Connection connection;
     CustomerBo customerBo = (CustomerBo) BoFactory.getBoFactory().getBo(BoFactory.BoTypes.CUSTOMER);
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        System.out.println("Init method Invoked");
-        try {
-            InitialContext ctx = new InitialContext();
-            DataSource pool = (DataSource) ctx.lookup("java:comp/env/jdbc/pos");
-            this.connection = pool.getConnection();
-            System.out.println("Connection initialized: " + this.connection);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
+        this.connection = new DbConnection().getDbConnection();
+        logger.info("Customer Servlet Init Method Invoked!");
     }
 
     @Override
@@ -59,7 +53,7 @@ public class CustomerController extends HttpServlet {
                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                }
             }catch (Exception e){
-
+                logger.error("Something went wrong in customer post method!");
             }
         }
     }
@@ -85,7 +79,7 @@ public class CustomerController extends HttpServlet {
                 resp.setContentType("application/json");
                 jsonb.toJson(customerBo.getCustomer(customerId, connection), writer);
             }catch (Exception e){
-
+                logger.error("Something went wrong in customer doGet() method : " + e.getMessage());
             }
         }else {
             try(var writer = resp.getWriter()){
@@ -94,7 +88,7 @@ public class CustomerController extends HttpServlet {
                 resp.setContentType("application/json");
                 jsonb.toJson(allCustomers, writer);
             }catch (Exception e){
-
+                logger.error("Something went wrong in customer doGet() method : " + e.getMessage());
             }
         }
 
@@ -114,6 +108,7 @@ public class CustomerController extends HttpServlet {
                 writer.write("Something went wrong!");
             }
         } catch (Exception e) {
+            logger.error("Something went wrong in customer doPut() method : " + e.getMessage());
             throw new RuntimeException(e);
         }
     }

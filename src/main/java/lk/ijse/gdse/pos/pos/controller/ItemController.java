@@ -12,6 +12,7 @@ import lk.ijse.gdse.pos.pos.bo.ItemBo;
 import lk.ijse.gdse.pos.pos.bo.ItemBoImpl;
 import lk.ijse.gdse.pos.pos.dto.CustomerDto;
 import lk.ijse.gdse.pos.pos.dto.ItemDto;
+import lk.ijse.gdse.pos.pos.util.DbConnection;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -30,17 +31,7 @@ public class ItemController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        try {
-            System.out.println("item init ekt enwa!");
-            InitialContext ctx = new InitialContext();
-            DataSource pool = (DataSource) ctx.lookup("java:comp/env/jdbc/pos");
-            this.connection = pool.getConnection();
-            System.out.println("Connection initialized: " + this.connection);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
+        this.connection = new DbConnection().getDbConnection();
     }
 
     @Override

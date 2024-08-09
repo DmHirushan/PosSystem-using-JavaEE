@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.gdse.pos.pos.bo.*;
 import lk.ijse.gdse.pos.pos.dto.OrderDetailDto;
 import lk.ijse.gdse.pos.pos.dto.OrderDto;
+import lk.ijse.gdse.pos.pos.util.DbConnection;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -26,16 +27,7 @@ public class PlaceOrderFormController extends HttpServlet {
 
     public void init() throws ServletException {
         System.out.println("Place Order Init method Invoked");
-        try {
-            InitialContext ctx = new InitialContext();
-            DataSource pool = (DataSource) ctx.lookup("java:comp/env/jdbc/pos");
-            this.connection = pool.getConnection();
-            System.out.println("Connection initialized: " + this.connection);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
+        this.connection = new DbConnection().getDbConnection();
     }
 
     @Override
