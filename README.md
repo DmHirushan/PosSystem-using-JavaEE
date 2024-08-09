@@ -29,6 +29,7 @@ This project is a simple POS (Point of Sale) system that allows managing custome
    ```bash
    git clone https://github.com/DmHirushan/PosSystem-using-Java
    
+2. **Setup Database Configurations Using your credentials:**
 
 ## API Documentation
 
@@ -163,14 +164,23 @@ Content-Type: application/json
 "orderId": "ORD001",
 "date": "2024-08-09",
 "customerId": "C001",
-"orderDetails": [
-{
-"itemCode": "I001",
-"qty": 2,
-"unitPrice": 1500
 }
+
+## OrderDetail API
+
+POST
+
+Description : Save Order Details
+
+Request Body : Content-Type: application/json
+
+[
+    {
+    "itemCode": "I001",
+    "qty": 2,
+    "unitPrice": 1500
+    }
 ]
-}
 
 
 

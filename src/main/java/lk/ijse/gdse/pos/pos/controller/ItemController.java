@@ -13,6 +13,8 @@ import lk.ijse.gdse.pos.pos.bo.ItemBoImpl;
 import lk.ijse.gdse.pos.pos.dto.CustomerDto;
 import lk.ijse.gdse.pos.pos.dto.ItemDto;
 import lk.ijse.gdse.pos.pos.util.DbConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -24,13 +26,14 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/item")
 public class ItemController extends HttpServlet {
-
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
     Connection connection;
 
     ItemBo itemBo = (ItemBo) BoFactory.getBoFactory().getBo(BoFactory.BoTypes.ITEM);
 
     @Override
     public void init() throws ServletException {
+        logger.info("Item Controller init() method invoked!");
         this.connection = new DbConnection().getDbConnection();
     }
 
@@ -45,7 +48,7 @@ public class ItemController extends HttpServlet {
                     ItemDto itemDto = jsonb.fromJson(req.getReader(), ItemDto.class);
                     writer.write(itemBo.saveItem(itemDto, connection));
                 }catch (Exception e){
-
+                    logger.error("Something went wrong in Item Controller doPost() method!");
                 }
             }
         } catch (Exception e) {
@@ -62,7 +65,7 @@ public class ItemController extends HttpServlet {
                 resp.setContentType("application/json");
                 jsonb.toJson(allItems, writer);
             }catch (Exception e){
-
+                logger.error("Something went wrong in Item Controller doGet() method!");
             }
         }else {
             try(var writer = resp.getWriter()){
@@ -90,6 +93,7 @@ public class ItemController extends HttpServlet {
                 writer.write("Something went wrong!");
             }
         } catch (Exception e) {
+            logger.error("Something went wrong in Item Controller doPut() method!");
             throw new RuntimeException(e);
         }
     }

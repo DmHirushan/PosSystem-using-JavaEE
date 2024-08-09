@@ -48,6 +48,7 @@ public class CustomerController extends HttpServlet {
                 Jsonb jsonb = JsonbBuilder.create();
                 CustomerDto customerDto = jsonb.fromJson(req.getReader(), CustomerDto.class);
                if (customerBo.saveCustomer(customerDto, connection)){
+                   writer.write("Customer Saved Successfully!");
                     resp.setStatus(HttpServletResponse.SC_CREATED);
                 }else{
                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -101,8 +102,8 @@ public class CustomerController extends HttpServlet {
             Jsonb jsonb = JsonbBuilder.create();
             CustomerDto customerDto = jsonb.fromJson(req.getReader(), CustomerDto.class);
             if (customerBo.updateCustomer(customerId, customerDto, connection)){
+                writer.write("Customer Update Successfully!");
                 resp.setStatus(HttpServletResponse.SC_CREATED);
-//                writer.write("Customer Update Successfully!");
             }else {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 writer.write("Something went wrong!");
@@ -118,7 +119,6 @@ public class CustomerController extends HttpServlet {
         try(var writer = resp.getWriter()){
             var customerId = req.getParameter("id");
             if (customerBo.deleteCustomer(customerId, connection)){
-                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
                 writer.write("Customer Deleted Successfully!");
             }else {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

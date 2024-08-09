@@ -11,6 +11,8 @@ import lk.ijse.gdse.pos.pos.bo.*;
 import lk.ijse.gdse.pos.pos.dto.OrderDetailDto;
 import lk.ijse.gdse.pos.pos.dto.OrderDto;
 import lk.ijse.gdse.pos.pos.util.DbConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -22,12 +24,14 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/placeorder")
 public class PlaceOrderFormController extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+
     Connection connection;
     OrderBo orderBo = (OrderBo) BoFactory.getBoFactory().getBo(BoFactory.BoTypes.ORDER);
     OrderDetailBo orderDetailBo = (OrderDetailBo) BoFactory.getBoFactory().getBo(BoFactory.BoTypes.ORDER_DETAIL);
 
     public void init() throws ServletException {
-        System.out.println("Place Order Init method Invoked");
+        logger.info("Place Order init() method invoked!");
         this.connection = new DbConnection().getDbConnection();
     }
 
